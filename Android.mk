@@ -31,6 +31,13 @@ LOCAL_SRC_FILES += \
     openrecoveryscript.cpp \
     tarWrite.c
 
+LOCAL_SRC_FILES += \
+    ubi/ubiutils-common.c \
+    ubi/libubi.c
+
+LOCAL_C_INCLUDES += \
+     bootable/recovery/ubi/include
+
 ifneq ($(TARGET_RECOVERY_REBOOT_SRC),)
   LOCAL_SRC_FILES += $(TARGET_RECOVERY_REBOOT_SRC)
 endif
@@ -263,6 +270,9 @@ ifneq ($(TW_EXCLUDE_ENCRYPTED_BACKUPS), true)
     LOCAL_SHARED_LIBRARIES += libopenaes
 else
     LOCAL_CFLAGS += -DTW_EXCLUDE_ENCRYPTED_BACKUPS
+endif
+ifeq ($(TW_SWITCHED_MEMORIES), true)
+    LOCAL_CFLAGS += -DTW_SWITCHED_MEMORIES
 endif
 
 include $(BUILD_EXECUTABLE)
